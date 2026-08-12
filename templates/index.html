@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Trip Planner AI</title>
+	<meta name="description" content="Plan flights, destinations, hotels, and itineraries with an AI travel assistant.">
+	<link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+	<div class="page-shell">
+		<header class="topbar">
+			<div class="brand-lockup" aria-label="Trip Planner AI">
+				<div class="brand-mark" aria-hidden="true">✈</div>
+				<div>
+					<p class="brand-name">Trip Planner AI</p>
+					<p class="brand-tagline">AI trip planning for destinations, flights, hotels, and itineraries.</p>
+				</div>
+			</div>
+			<nav class="topbar-actions" aria-label="Primary">
+				<a class="text-link" href="#planner">Plan a trip</a>
+				<a class="button button-secondary" href="#results">View results</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero-section">
+				<div class="hero-copy">
+					<p class="eyebrow">Modern travel assistant</p>
+					<h1>Plan your next journey with AI.</h1>
+					<p class="hero-description">
+						Share your origin, destination, dates, budget, and preferences. Trip Planner AI will search live flight data, gather web research, and generate a practical itinerary you can actually use.
+					</p>
+
+					<div class="hero-stats" aria-label="Trip Planner AI highlights">
+						<div class="stat-card">
+							<span class="stat-label">Travel planning</span>
+							<strong>Flights + hotels + itinerary</strong>
+						</div>
+						<div class="stat-card">
+							<span class="stat-label">Response style</span>
+							<strong>Clear, structured, and usable</strong>
+						</div>
+						<div class="stat-card">
+							<span class="stat-label">Workflow</span>
+							<strong>One request, one AI plan</strong>
+						</div>
+					</div>
+				</div>
+
+				<aside class="hero-panel" aria-label="How it works">
+					<div class="panel-badge">What the assistant does</div>
+					<ol class="workflow-list">
+						<li>
+							<span>1</span>
+							<div>
+								<strong>Reads your trip brief</strong>
+								<p>Origin, destination, travel dates, budget, and interests are combined into a single planning request.</p>
+							</div>
+						</li>
+						<li>
+							<span>2</span>
+							<div>
+								<strong>Searches live data</strong>
+								<p>The backend uses flight search and web search tools before asking the AI to synthesize the trip plan.</p>
+							</div>
+						</li>
+						<li>
+							<span>3</span>
+							<div>
+								<strong>Returns a readable plan</strong>
+								<p>Results are shown as overview cards, flight cards, research snippets, and a day-by-day itinerary.</p>
+							</div>
+						</li>
+					</ol>
+				</aside>
+			</section>
+
+			<section class="planner-layout" id="planner">
+				<div class="planner-card">
+					<div class="section-heading">
+						<p class="eyebrow">Trip brief</p>
+						<h2>Tell the assistant where you want to go.</h2>
+						<p>Use the form below to build a natural-language request that the existing backend can understand.</p>
+					</div>
+
+					<form class="trip-form" id="trip-form" novalidate>
+						<div class="form-grid">
+							<div class="field-group">
+								<label for="origin">Origin</label>
+								<input id="origin" name="origin" type="text" placeholder="e.g. Chennai, MAA, or India" autocomplete="off" required>
+							</div>
+
+							<div class="field-group">
+								<label for="destination">Destination</label>
+								<input id="destination" name="destination" type="text" placeholder="e.g. Tokyo, Japan, or NRT" autocomplete="off" required>
+							</div>
+
+							<div class="field-group">
+								<label for="departure-date">Departure date</label>
+								<input id="departure-date" name="departure_date" type="date" required>
+							</div>
+
+							<div class="field-group">
+								<label for="return-date">Return date</label>
+								<input id="return-date" name="return_date" type="date">
+							</div>
+
+							<div class="field-group">
+								<label for="travelers">Travelers</label>
+								<select id="travelers" name="travelers">
+									<option value="1">1 traveler</option>
+									<option value="2">2 travelers</option>
+									<option value="3">3 travelers</option>
+									<option value="4">4 travelers</option>
+									<option value="5">5 travelers</option>
+									<option value="6">6 travelers</option>
+								</select>
+							</div>
+
+							<div class="field-group">
+								<label for="budget">Budget</label>
+								<select id="budget" name="budget">
+									<option value="Flexible">Flexible</option>
+									<option value="Budget-friendly">Budget-friendly</option>
+									<option value="Mid-range">Mid-range</option>
+									<option value="Premium">Premium</option>
+								</select>
+							</div>
+						</div>
+
+						<fieldset class="field-group interests-group">
+							<legend>Travel interests</legend>
+							<div class="chip-grid">
+								<label class="chip">
+									<input type="checkbox" name="interest" value="culture">
+									<span>Culture</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="food">
+									<span>Food</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="nature">
+									<span>Nature</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="beaches">
+									<span>Beaches</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="nightlife">
+									<span>Nightlife</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="family">
+									<span>Family</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="adventure">
+									<span>Adventure</span>
+								</label>
+								<label class="chip">
+									<input type="checkbox" name="interest" value="shopping">
+									<span>Shopping</span>
+								</label>
+							</div>
+						</fieldset>
+
+						<div class="field-group">
+							<label for="requests">Additional requests</label>
+							<textarea id="requests" name="requests" rows="4" placeholder="Any pace, food, hotel, visa, or sightseeing preferences to consider."></textarea>
+						</div>
+
+						<div class="form-footer">
+							<p class="form-note">The backend accepts a single message, so these details are combined into one natural-language request.</p>
+							<button class="button button-primary" type="submit" id="submit-trip">
+								<span class="button-label">Plan my trip</span>
+								<span class="button-loader" aria-hidden="true"></span>
+							</button>
+						</div>
+
+						<p class="form-error" id="form-error" role="alert" hidden></p>
+					</form>
+				</div>
+
+				<aside class="planner-aside" aria-label="Helpful tips">
+					<div class="info-card">
+						<p class="eyebrow">Quick tips</p>
+						<h3>Get better planning results</h3>
+						<ul class="tip-list">
+							<li>Be specific about the city or country you want to visit.</li>
+							<li>Add your travel dates so the itinerary feels realistic.</li>
+							<li>Share your budget and interests for more relevant recommendations.</li>
+							<li>Use the same session to keep the planner context consistent.</li>
+						</ul>
+					</div>
+
+					<div class="info-card accent-card">
+						<p class="eyebrow">Example prompt</p>
+						<p class="example-copy">
+							Plan a 5 day trip from Chennai to Japan for 2 travelers, departing on 2026-10-10 and returning on 2026-10-15. Budget is mid-range. Interests: food and culture. Additional requests: focus on compact sightseeing and reliable hotels.
+						</p>
+					</div>
+				</aside>
+			</section>
+
+			<section class="results-section" id="results" aria-live="polite" aria-busy="false" hidden>
+				<div class="results-header">
+					<div>
+						<p class="eyebrow">Your AI trip plan</p>
+						<h2 id="results-title">Planning in progress</h2>
+						<p id="results-summary">We will show live flight information, web research, and itinerary recommendations here.</p>
+					</div>
+					<div class="results-meta" id="results-meta"></div>
+				</div>
+
+				<div class="loading-state" id="loading-state" hidden>
+					<div class="loader" aria-hidden="true"></div>
+					<div>
+						<h3>Planning your perfect trip...</h3>
+						<p>The assistant is checking flights, travel research, and itinerary details. This usually takes a few moments.</p>
+					</div>
+				</div>
+
+				<div class="results-grid" id="results-grid"></div>
+			</section>
+		</main>
+	</div>
+
+	<script src="{{ url_for('static', path='script.js') }}" defer></script>
+</body>
+</html>
