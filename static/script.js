@@ -462,41 +462,52 @@ function addMetaPill(text) {
 	resultsMeta.appendChild(pill);
 }
 
-function renderOverview(values, result) {
-	const { card, body } = createCard('Trip overview', 'At a glance');
+function renderOverview(values) {
+	const { card, body } = createCard(
+		'Trip overview',
+		'At a glance'
+	);
+
 	const summaryGrid = document.createElement('div');
 	summaryGrid.className = 'summary-grid';
 
 	const items = [
-		{ label: 'Route', value: `${values.origin} → ${values.destination}` },
-		{ label: 'Travel window', value: `${formatDate(values.departureDate)}${values.returnDate ? ` to ${formatDate(values.returnDate)}` : ''}` },
-		{ label: 'Travelers', value: `${values.travelers}` },
-		{ label: 'Budget', value: values.budget },
+		{
+			label: 'Route',
+			value: `${values.origin} → ${values.destination}`,
+		},
+		{
+			label: 'Travel window',
+			value: `${formatDate(values.departureDate)}${
+				values.returnDate
+					? ` to ${formatDate(values.returnDate)}`
+					: ''
+			}`,
+		},
+		{
+			label: 'Travelers',
+			value: values.travelers,
+		},
+		{
+			label: 'Budget',
+			value: values.budget,
+		},
 	];
 
 	for (const item of items) {
 		const summaryItem = document.createElement('div');
 		summaryItem.className = 'summary-item';
-		summaryItem.innerHTML = `<span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong>`;
+
+		summaryItem.innerHTML = `
+			<span>${escapeHtml(item.label)}</span>
+			<strong>${escapeHtml(item.value)}</strong>
+		`;
+
 		summaryGrid.appendChild(summaryItem);
 	}
 
 	body.appendChild(summaryGrid);
 
-	const meta = document.createElement('div');
-	meta.className = 'section-stack';
-
-	const status = document.createElement('div');
-	status.className = 'success-banner';
-	status.textContent = `AI response generated with ${result.llm_calls ?? 0} model steps`;
-	meta.appendChild(status);
-
-	const request = document.createElement('div');
-	request.className = 'rich-text';
-	request.innerHTML = renderMarkdownBlock(result.answer || 'No AI response text was returned.');
-	meta.appendChild(request);
-
-	body.appendChild(meta);
 	return card;
 }
 
@@ -735,22 +746,31 @@ function renderResults(result, values) {
 	resultsGrid.innerHTML = '';
 	resultsMeta.innerHTML = '';
 	resultsSection.hidden = false;
-	resultsTitle.textContent = 'Your trip plan is ready';
-	resultsSummary.textContent = 'The backend response has been organized into summary cards, live flight details, web research, and itinerary sections.';
 
-	addMetaPill(`Thread ${result.thread_id ? result.thread_id.slice(-8) : 'new'}`);
+	resultsTitle.textContent = 'Your trip plan is ready';
+	resultsSummary.textContent =
+		'Your complete AI-generated trip plan is shown below.';
+
+	addMetaPill(
+		`Thread ${
+			result.thread_id
+				? result.thread_id.slice(-8)
+				: 'new'
+		}`
+	);
+
 	addMetaPill(`${result.llm_calls ?? 0} AI steps`);
 	addMetaPill(`${values.origin} → ${values.destination}`);
 
 	resultsGrid.append(
-		renderOverview(values, result),
-		renderAnswerCard(result.answer),
-		renderFlightsCard(result.flight_results),
-		renderHotelsCard(result.hotel_results),
-		renderItineraryCard(result.itinerary),
+		renderOverview(values),
+		renderAnswerCard(result.answer)
 	);
 
-	resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	resultsSection.scrollIntoView({
+		behavior: 'smooth',
+		block: 'start',
+	});
 }
 
 async function handleSubmit(event) {
